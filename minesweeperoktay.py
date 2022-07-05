@@ -77,41 +77,41 @@ def floodFill(zeile, spalte):
 
 
 
-#Die Objekte werden je Feld angelegt und in der Matrix gespeichert
+
 for n in range(raster*raster):
   matrix.append(Cell(n // raster, n % raster))
 
-#Die Minen werden zufällig verteilt
+
 while anzMinen > 0:
   cell = matrix[rnd.randrange(raster*raster)]
   if not cell.mine:
     cell.mine = True
     anzMinen -= 1
 
-#Die Anzahl der Minen in den benachbarten Feldern werden je Feld ermittelt
+
   for objekt in matrix:
     if not objekt.mine:
       objekt.anzMinenErmitteln()
 
-#Hauptschleife zum Bildschirmzeichnen und zur Auswertung der Ereignisse
+
 clock = pg.time.Clock()
 weitermachen = True
 while weitermachen:
-  #Frames per second setzen
+  
   clock.tick(20)
-  #Events auswerten
+  
   for event in pg.event.get():
-    #wenn Fenster geschlossen wird
+    
     if event.type == pg.QUIT:
       weitermachen = False
-    #wenn Maustaste gedrückt wurde
+    
     if event.type == pg.MOUSEBUTTONDOWN:
       mouseX, mouseY = pg.mouse.get_pos()
       cell = matrix[mouseY // abstand * raster + mouseX // abstand]
-      #rechte Maustaste
+      
       if pg.mouse.get_pressed()[2]:
         cell.markiert = not cell.markiert
-      #linke Maustaste
+      
       if pg.mouse.get_pressed()[0]:
         cell.aufgedeckt = True
         if cell.anzMinenDrumrum == 0 and not cell.mine:
